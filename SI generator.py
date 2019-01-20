@@ -1,5 +1,3 @@
-import numpy as np
-
 
 # Třída pro celí program
 class Jednotky_SI:
@@ -25,6 +23,39 @@ class Jednotky_SI:
 
     def __getitem__(self, item):
         self.__getitem__(item)
+
+
+def odcitani_matic(Matice, n, k):  # n - kolikátý sloupec    k - kolikátá řáda k odečtení
+    Podil = Matice[k][n]/Matice[n][n]
+    for i in range(k, len(Matice)+1):
+        Matice[k][i] -= Podil*Matice[n][i]
+
+def razeni(Matice, n):
+     for i in range (n, len(Matice)):
+         if Matice[i][n] != 0:
+             if i == n:
+                 break
+             else:
+                 D = Matice[n]
+                 Matice[n] = Matice[i]
+                 Matice[i] = D
+                 break
+
+
+def reseni_matic(Matice):
+    for i in range(0,len(Matice)-1):
+        razeni(Matice, i)
+        for k in range(i+1, len(Matice)):
+            odcitani_matic(Matice, i, k)
+
+def ziskat_reseni(Matice):
+    Vysledky = []
+    for i in range(len(Matice)):
+        for k in range(0, i):
+            odcitani_matic(Matice, i, k)
+    for i in range(0,len(Matice)):
+        Vysledky.append(Matice[i][i]/Matice[i][len(Matice)+1])
+    return Vysledky
 
 Veliciny = []
 
@@ -231,7 +262,7 @@ if Gmol != 0:
     Gglobal =+ 1
 if Gkandela != 0:
     Gglobal =+ 1
-import numpy.linalg as lin
+
 metr = []
 kilogram = []
 sekunda = []
@@ -239,10 +270,10 @@ amper = []
 kelvin = []
 mol = []
 kandela = []
-MatrixA = []
-if (len(Veliciny)-1) > Gglobal:
+Matrix = []
+if len(Veliciny) > Gglobal:
     print("Nelze vypočítat")
-elif (len(Veliciny)-1) == Gglobal:
+elif len(Veliciny) == Gglobal:
     metr = []
     kilogram = []
     sekunda = []
@@ -250,9 +281,8 @@ elif (len(Veliciny)-1) == Gglobal:
     kelvin = []
     mol = []
     kandela = []
-    MatrixA = []
-    MatrixB = []
-    for i in range(1, len(Veliciny)):
+    Matrix = []
+    for i in range(0, len(Veliciny)):
         metr.append(Veliciny[i].Metr)
         kilogram.append(Veliciny[i].Kilogram)
         sekunda.append(Veliciny[i].Sekunda)
@@ -261,35 +291,25 @@ elif (len(Veliciny)-1) == Gglobal:
         mol.append(Veliciny[i].Mol)
         kandela.append(Veliciny[i].Kandela)
     if Gmetr != 0:
-        MatrixA.append(metr)
+        metr.reverse()
+        Matrix.append(metr)
     if Gkilogram != 0:
-        MatrixA.append(kilogram)
+        kilogram.reverse()
+        Matrix.append(kilogram)
     if Gsekunda != 0:
-        MatrixA.append(sekunda)
+        sekunda.reverse()
+        Matrix.append(sekunda)
     if Gamper != 0:
-        MatrixA.append(amper)
+        amper.reverse()
+        Matrix.append(amper)
     if Gkelvin != 0:
-        MatrixA.append(kelvin)
+        kelvin.reverse()
+        Matrix.append(kelvin)
     if Gmol != 0:
-        MatrixA.append(mol)
+        mol.reverse()
+        Matrix.append(mol)
     if Gkandela != 0:
-        MatrixA.append(kandela)
-
-    if Gmetr != 0:
-        MatrixB.append(Veliciny[0].Metr)
-    if Gkilogram != 0:
-        MatrixB.append(Veliciny[0].Kilogram)
-    if Gsekunda != 0:
-        MatrixB.append(Veliciny[0].Sekunda)
-    if Gamper != 0:
-        MatrixB.append(Veliciny[0].Amper)
-    if Gkelvin != 0:
-        MatrixB.append(Veliciny[0].Kelvin)
-    if Gmol != 0:
-        MatrixB.append(Veliciny[0].Mol)
-    if Gkandela != 0:
-        MatrixB.append(Veliciny[0].Kandela)
-
-    Vysledky = lin.solve(MatrixA, MatrixB)
-
-    print(Vysledky)
+        kandela.reverse()
+        Matrix.append(kandela)
+    reseni_matic(Matrix)
+    Vysledky = ziskat_reseni(Matrix)
