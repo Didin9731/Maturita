@@ -1,4 +1,4 @@
-
+from fractions import Fraction
 # Třída pro celí program
 class Jednotky_SI:
     def __init__(self, Znacka, Dalsi=None, Metr=0, Kilogram=0, Sekunda=0, Amper=0, Kelvin=0, Mol=0, Kandela=0,):
@@ -54,7 +54,7 @@ def ziskat_reseni(Matice):
         for k in range(0, i):
             odcitani_matic(Matice, i, k)
     for i in range(0,len(Matice)):
-        Vysledky.append(Matice[i][i]/Matice[i][len(Matice)+1])
+        Vysledky.append(-1*Matice[i][i]/Matice[i][len(Matice)])
     return Vysledky
 
 Veliciny = []
@@ -77,191 +77,263 @@ for j in range(0, len(Veliciny)):
     for i in Veliciny[j].Dalsi:
         if i.find("-") != -1:
             i = i.split("-")
-            for k in range(int(i[1])+1):
-                if i == "M" or "m" or "Mert" or "mert":
-                   Veliciny[j].Metr -= 1
-                elif i == "Kg" or "kg" or "Kilogram" or "kilogram":
-                  Veliciny[j].Kilogram -= 1
-                elif i == "Sekunda" or "sekunda" or "s":
-                  Veliciny[j].Sekunda -= 1
-                elif i == "A" or "a" or "Amper" or "amper":
-                  Veliciny[j].Amper -= 1
-                elif i == "K" or "k" or "Kelvin" or "kelvin" or "°C" or "°c":
+            for k in range(int(i[1])):
+                if i[0] == "m":
+                    Veliciny[j].Metr -= 1
+                elif i[0] == "kg":
+                    Veliciny[j].Kilogram -= 1
+                elif i[0] == "s":
+                    Veliciny[j].Sekunda -= 1
+                elif i[0] == "A":
+                    Veliciny[j].Amper -= 1
+                elif i[0] == "K":
                     Veliciny[j].Kelvin -= 1
-                elif i == "mol" or "Mol":
+                elif i[0] == "mol":
                     Veliciny[j].Mol -= 1
-                elif i == "Kandela" or "kandela" or "cd" or "Cd":
+                elif i[0] == "cd":
                     Veliciny[j].Kandela -= 1
-                elif i == "Hz" or "hz" or "hertz" or "Hertz":
+                elif i[0] == "Hz":
                     Veliciny[j].Sekunda += 1
-                elif i == "newton" or "Newton" or "N" or "n":
+                elif i[0] == "N":
                     Veliciny[j].Kilogram -= 1
                     Veliciny[j].Metr -= 1
                     Veliciny[j].Sekunda += 2
-                elif i == "P" or "p" or "Pa" or "pa" or "pascal" or "Pascal":
+                elif i[0] == "Pa":
                     Veliciny[j].Kilogram -= 1
                     Veliciny[j].Sekunda += 2
                     Veliciny[j].Metr += 1
-                elif i == "J" or "j" or "joule" or "Joule":
+                elif i[0] == "J":
                     Veliciny[j].Kilogram -= 1
                     Veliciny[j].Sekunda += 2
                     Veliciny[j].Metr -= 2
-                elif i == "Watt" or "watt" or "W" or "w":
+                elif i[0] == "W":
                     Veliciny[j].Kilogram -= 1
                     Veliciny[j].Sekunda += 3
                     Veliciny[j].Metr -= 2
-                elif i == "Coulomb" or "coulomb" or "C" or "c":
+                elif i[0] == "C":
                     Veliciny[j].Amper -= 1
                     Veliciny[j].Sekunda += 1
-                elif i == "Volt" or "volt" or "V" or "v":
+                elif i[0] == "V":
                     Veliciny[j].Kilogram -= 1
                     Veliciny[j].Sekunda += 3
                     Veliciny[j].Metr -= 2
                     Veliciny[j].Amper += 1
-                elif i == "farad" or "Farad" or "F" or "f":
+                elif i[0] == "F":
                     Veliciny[j].Kilogram += 1
                     Veliciny[j].Sekunda -= 4
                     Veliciny[j].Metr += 2
                     Veliciny[j].Amper -= 2
-                elif i == "ohm" or "Ohm" or "Ω":
+                elif i[0] == "ohm" or i[0] == "Ω":
                     Veliciny[j].Kilogram -= 1
                     Veliciny[j].Sekunda += 3
                     Veliciny[j].Metr -= 2
                     Veliciny[j].Amper += 2
-                elif i == "siemens" or "Siemens" or "S":
+                elif i[0] == "S":
                     Veliciny[j].Kilogram += 1
                     Veliciny[j].Sekunda -= 3
                     Veliciny[j].Metr += 2
                     Veliciny[j].Amper -= 2
-                elif i == "Weber" or "weber" or "Wb" or "wb":
+                elif i[0] == "Wb":
                     Veliciny[j].Kilogram -= 1
                     Veliciny[j].Sekunda += 2
                     Veliciny[j].Metr -= 2
                     Veliciny[j].Amper += 1
-                elif i == "tesla" or "Tesla" or "T" or "t":
+                elif i[0] == "T":
                     Veliciny[j].Kilogram -= 1
                     Veliciny[j].Sekunda += 2
                     Veliciny[j].Amper += 1
-                elif i == "henry" or "Henry" or "H" or "h":
+                elif i[0] == "H":
                     Veliciny[j].Kilogram -= 1
                     Veliciny[j].Sekunda += 2
                     Veliciny[j].Metr -= 2
                     Veliciny[j].Amper += 2
+                elif i[0] != "rad" or i[0] != "sr":
+                    print("neznámé veličiny")
         else:
             if i.find("+") != -1:
                 i = i.split('+')
             if len(i) == 1:
                 i = [i, 1]
-            for k in range(int(i[1])+1):
-                if i == "M" or "m" or "Mert" or "mert":
+            for k in range(int(i[1])):
+                if i[0] == "m":
                     Veliciny[j].Metr += 1
-                elif i == "Kg" or "kg" or "Kilogram" or "kilogram":
+                elif i[0] == "kg":
                     Veliciny[j].Kilogram += 1
-                elif i == "Sekunda" or "sekunda" or "s":
+                elif i[0] == "s":
                     Veliciny[j].Sekunda += 1
-                elif i == "A" or "a" or "Amper" or "amper":
+                elif i[0] == "A":
                     Veliciny[j].Amper += 1
-                elif i == "K" or "k" or "Kelvin" or "kelvin" or "°C" or "°c":
+                elif i[0] == "K":
                     Veliciny[j].Kelvin += 1
-                elif i == "mol" or "Mol":
+                elif i[0] == "mol":
                     Veliciny[j].Mol += 1
-                elif i == "Kandela" or "kandela" or "cd" or "Cd":
+                elif i[0] == "cd":
                     Veliciny[j].Kandela += 1
-                elif i == "Hz" or "hz" or "hertz" or "Hertz":
+                elif i[0] == "Hz":
                     Veliciny[j].Sekunda -= 1
-                elif i == "newton" or "Newton" or "N" or "n":
+                elif i[0] == "N":
                     Veliciny[j].Kilogram += 1
                     Veliciny[j].Metr += 1
                     Veliciny[j].Sekunda -= 2
-                elif i == "P" or "p" or "Pa" or "pa" or "pascal" or "Pascal":
+                elif i[0] == "Pa":
                     Veliciny[j].Kilogram += 1
                     Veliciny[j].Sekunda -= 2
                     Veliciny[j].Metr -= 1
-                elif i == "J" or "j" or "joule" or "Joule":
+                elif i[0] == "J":
                     Veliciny[j].Kilogram += 1
                     Veliciny[j].Sekunda -= 2
                     Veliciny[j].Metr += 2
-                elif i == "Watt" or "watt" or "W" or "w":
+                elif i[0] == "W":
                     Veliciny[j].Kilogram += 1
                     Veliciny[j].Sekunda -= 3
                     Veliciny[j].Metr += 2
-                elif i == "Coulomb" or "coulomb" or "C" or "c":
+                elif i[0] == "C":
                     Veliciny[j].Amper += 1
                     Veliciny[j].Sekunda -= 1
-                elif i == "Volt" or "volt" or "V" or "v":
+                elif i[0] == "V":
                     Veliciny[j].Kilogram += 1
                     Veliciny[j].Sekunda -= 3
                     Veliciny[j].Metr += 2
                     Veliciny[j].Amper -= 1
-                elif i == "farad" or "Farad" or "F" or "f":
+                elif i[0] == "F":
                     Veliciny[j].Kilogram -= 1
                     Veliciny[j].Sekunda += 4
                     Veliciny[j].Metr -= 2
                     Veliciny[j].Amper += 2
-                elif i == "ohm" or "Ohm" or "Ω":
+                elif i[0] == "ohm" or i[0] == "Ω":
                     Veliciny[j].Kilogram += 1
                     Veliciny[j].Sekunda -= 3
                     Veliciny[j].Metr += 2
                     Veliciny[j].Amper -= 2
-                elif i == "siemens" or "Siemens" or "S":
+                elif i[0] == "S":
                     Veliciny[j].Kilogram -= 1
                     Veliciny[j].Sekunda += 3
                     Veliciny[j].Metr -= 2
                     Veliciny[j].Amper += 2
-                elif i == "Weber" or "weber" or "Wb" or "wb":
+                elif i[0] == "Wb":
                     Veliciny[j].Kilogram += 1
                     Veliciny[j].Sekunda -= 2
                     Veliciny[j].Metr += 2
                     Veliciny[j].Amper -= 1
-                elif i == "tesla" or "Tesla" or "T" or "t":
+                elif i[0] == "T":
                     Veliciny[j].Kilogram += 1
                     Veliciny[j].Sekunda -= 2
                     Veliciny[j].Amper -= 1
-                elif i == "henry" or "Henry" or "H" or "h":
+                elif i[0] == "H":
                     Veliciny[j].Kilogram += 1
                     Veliciny[j].Sekunda -= 2
                     Veliciny[j].Metr += 2
                     Veliciny[j].Amper -= 2
+                elif i[0] != "rad" or i[0] != "sr":
+                    print("neznámé veličiny")
 
-
+while True:
 # Výpočetní část
-Gmetr = 0
-Gkilogram = 0
-Gsekunda = 0
-Gamper = 0
-Gkelvin = 0
-Gmol = 0
-Gkandela = 0
-Gglobal = 0
-for i in Veliciny:
-    if i.Metr != 0:
-        Gmetr =+1
-    if i.Kilogram != 0:
-        Gkilogram =+ 1
-    if i.Sekunda != 0:
-        Gsekunda =+ 1
-    if i.Amper != 0:
-        Gamper =+ 1
-    if i.Kelvin != 0:
-        Gkelvin =+ 1
-    if i.Mol != 0:
-        Gmol =+ 1
-    if i.Kandela != 0:
-        Gkandela =+ 1
+    Gmetr = 0
+    Gkilogram = 0
+    Gsekunda = 0
+    Gamper = 0
+    Gkelvin = 0
+    Gmol = 0
+    Gkandela = 0
+    Gglobal = 0
+    validator = 0
+    for i in Veliciny:
+        if i.Metr != 0:
+            Gmetr +=1
+        if i.Kilogram != 0:
+            Gkilogram += 1
+        if i.Sekunda != 0:
+            Gsekunda += 1
+        if i.Amper != 0:
+            Gamper += 1
+        if i.Kelvin != 0:
+            Gkelvin += 1
+        if i.Mol != 0:
+            Gmol += 1
+        if i.Kandela != 0:
+            Gkandela += 1
+# kontrola vstup
+    if Gmetr == 1:
+        if Veliciny[0].Metr == 0:
+            for i in range(0,len(Veliciny)):
+                if Veliciny[i].Metr != 0:
+                    Veliciny.pop(i)
+                    validator = 1
+                    break
+        else:
+            raise ValueError
+    if Gkilogram == 1:
+        if Veliciny[0].Kilogram == 0:
+            for i in range(0,len(Veliciny)):
+                if Veliciny[i].Kilogram != 0:
+                    Veliciny.pop(i)
+                    validator = 1
+                    break
+        else:
+            raise ValueError
+    if Gsekunda == 1:
+        if Veliciny[0].Sekunda == 0:
+            for i in range(0,len(Veliciny)):
+                if Veliciny[i].Sekunda != 0:
+                    Veliciny.pop(i)
+                    validator = 1
+                    break
+        else:
+            raise ValueError
+    if Gamper == 1:
+        if Veliciny[0].Amper == 0:
+            for i in range(0,len(Veliciny)):
+                if Veliciny[i].Amper != 0:
+                    Veliciny.pop(i)
+                    validator = 1
+                    break
+        else:
+            raise ValueError
+    if Gkelvin == 1:
+        if Veliciny[0].Kelvin == 0:
+            for i in range(0,len(Veliciny)):
+                if Veliciny[i].Kelvin != 0:
+                    Veliciny.pop(i)
+                    validator = 1
+                    break
+        else:
+            raise ValueError
+#    if Gmol == 1:
+#        if Veliciny[0].Mol == 0:
+#            for i in range(0,len(Veliciny)):
+#                if Veliciny[i].Mol != 0:
+#                    Veliciny.pop(i)
+#                    validator = 1
+#                    break
+#        else:
+#            raise ValueError
+    if Gkandela == 1:
+        if Veliciny[0].Kandela == 0:
+            for i in range(0,len(Veliciny)):
+                if Veliciny[i].Kandela != 0:
+                    Veliciny.pop(i)
+                    validator = 1
+                    break
+        else:
+            raise ValueError
+    if validator == 0:
+        break
+
 if Gmetr != 0:
-    Gglobal =+ 1
+    Gglobal += 1
 if Gkilogram != 0:
-    Gglobal =+ 1
+    Gglobal += 1
 if Gsekunda != 0:
-    Gglobal =+ 1
+    Gglobal += 1
 if Gamper != 0:
-    Gglobal =+ 1
+    Gglobal += 1
 if Gkelvin != 0:
-    Gglobal =+ 1
+    Gglobal += 1
 if Gmol != 0:
-    Gglobal =+ 1
+    Gglobal += 1
 if Gkandela != 0:
-    Gglobal =+ 1
+    Gglobal += 1
 
 metr = []
 kilogram = []
@@ -271,9 +343,9 @@ kelvin = []
 mol = []
 kandela = []
 Matrix = []
-if len(Veliciny) > Gglobal:
+if len(Veliciny)-1 != Gglobal:
     print("Nelze vypočítat")
-elif len(Veliciny) == Gglobal:
+else :
     metr = []
     kilogram = []
     sekunda = []
@@ -313,3 +385,10 @@ elif len(Veliciny) == Gglobal:
         Matrix.append(kandela)
     reseni_matic(Matrix)
     Vysledky = ziskat_reseni(Matrix)
+    Vystup = str(Veliciny[0].Znacka) + ' = '
+    for i in range(1,len(Veliciny)):
+        Vystup += str(Veliciny[i].Znacka)
+        Vystup += str(Fraction.from_float(Vysledky[i-1]))
+        if i != len(Veliciny)-1:
+            Vystup += '*'
+    print(Vystup)
