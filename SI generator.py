@@ -54,7 +54,8 @@ def ziskat_reseni(Matice):
         for k in range(0, i):
             odcitani_matic(Matice, i, k)
     for i in range(0,len(Matice)):
-        Vysledky.append(-1*Matice[i][i]/Matice[i][len(Matice)])
+        Vysledky.append(Matice[i][len(Matice)]/Matice[i][i])
+    Vysledky.reverse()
     return Vysledky
 
 Veliciny = []
@@ -152,7 +153,7 @@ for j in range(0, len(Veliciny)):
         else:
             if i.find("+") != -1:
                 i = i.split('+')
-            if len(i) == 1:
+            else:
                 i = [i, 1]
             for k in range(int(i[1])):
                 if i[0] == "m":
@@ -299,15 +300,15 @@ while True:
                     break
         else:
             raise ValueError
-#    if Gmol == 1:
-#        if Veliciny[0].Mol == 0:
-#            for i in range(0,len(Veliciny)):
-#                if Veliciny[i].Mol != 0:
-#                    Veliciny.pop(i)
-#                    validator = 1
-#                    break
-#        else:
-#            raise ValueError
+    if Gmol == 1:
+        if Veliciny[0].Mol == 0:
+            for i in range(0,len(Veliciny)):
+                if Veliciny[i].Mol != 0:
+                    Veliciny.pop(i)
+                    validator = 1
+                    break
+        else:
+            raise ValueError
     if Gkandela == 1:
         if Veliciny[0].Kandela == 0:
             for i in range(0,len(Veliciny)):
@@ -388,7 +389,8 @@ else :
     Vystup = str(Veliciny[0].Znacka) + ' = '
     for i in range(1,len(Veliciny)):
         Vystup += str(Veliciny[i].Znacka)
-        Vystup += str(Fraction.from_float(Vysledky[i-1]))
+        if "1" != str(Fraction.from_float(Vysledky[i-1]).limit_denominator(100)):
+            Vystup += str(Fraction.from_float(Vysledky[i-1]).limit_denominator(100))
         if i != len(Veliciny)-1:
             Vystup += '*'
     print(Vystup)
