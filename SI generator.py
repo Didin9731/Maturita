@@ -65,6 +65,7 @@ while True:
     B = str(input("Jadnotky výsledné veličiny "))
     Veliciny.append(Jednotky_SI(A))
     Veliciny[len(Veliciny)-1].Dalsi = B
+    print("ukonči prázdným polem Veličina")
     while True:
         A = input("Veličina  ")
         if A == "":
@@ -393,13 +394,14 @@ while True:
         Vystup = str(Veliciny[0].Znacka) + ' = '
         for i in range(1,len(Veliciny)):
             Vystup += str(Veliciny[i].Znacka)
+            Vystup += '^'
             if "1" != str(Fraction.from_float(Vysledky[i-1]).limit_denominator(100)):
                 Vystup += str(Fraction.from_float(Vysledky[i-1]).limit_denominator(100))
             if i != len(Veliciny)-1:
                 Vystup += '*'
         print(Vystup)
     while True:
-        Pokracovat = input("Cheš pokračovat ano/ne")
+        Pokracovat = input("Cheš pokračovat ano/ne  ")
         if Pokracovat == "ne" or Pokracovat == "Ne" or Pokracovat == "ano" or Pokracovat == "Ano":
             break
     if Pokracovat == "ne" or Pokracovat == "Ne":
