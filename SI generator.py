@@ -234,7 +234,6 @@ while True:
                         print("neznámé veličiny")
 
     while True:
-# Výpočetní část
         Gmetr = 0
         Gkilogram = 0
         Gsekunda = 0
@@ -325,7 +324,7 @@ while True:
                 raise ValueError
         if validator == 0:
             break
-
+# Výpočetní část
     if Gmetr != 0:
         Gglobal += 1
     if Gkilogram != 0:
